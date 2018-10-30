@@ -18,10 +18,10 @@ end
 return {
   name = "file-log",
   fields = {
+    { mesh_mode = typedefs.mesh_mode_two_way },
     { config = {
         type = "record",
         fields = {
-          { mesh_mode = typedefs.mesh_mode_two_way },
           { path = { type = "string",
                      required = true,
                      custom_validator = validate_file,

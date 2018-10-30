@@ -20,6 +20,7 @@ return {
     { service = { type = "foreign", reference = "services", default = null, on_delete = "cascade", }, },
     { consumer = { type = "foreign", reference = "consumers", default = null, on_delete = "cascade", }, },
     { config = { type = "record", abstract = true, }, },
+    { mesh_mode = { type = "string" } },
     { enabled = { type = "boolean", default = true, }, },
   },
 

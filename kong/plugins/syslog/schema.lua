@@ -9,10 +9,10 @@ local severity = {
 return {
   name = "syslog",
   fields = {
+    { mesh_mode = typedefs.mesh_mode_two_way },
     { config = {
         type = "record",
         fields = {
-          { mesh_mode = typedefs.mesh_mode_two_way },
           { log_level = severity },
           { successful_severity = severity },
           { client_errors_severity = severity },

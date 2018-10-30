@@ -17,10 +17,10 @@ local REGIONS = {
 return {
   name = "aws-lambda",
   fields = {
+    { mesh_mode = typedefs.mesh_mode_two_way },
     { config = {
         type = "record",
         fields = {
-          { mesh_mode = typedefs.mesh_mode_two_way },
           { timeout = {
               type = "number",
               required = true,

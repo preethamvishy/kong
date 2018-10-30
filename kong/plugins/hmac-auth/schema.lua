@@ -13,10 +13,10 @@ return {
   name = "hmac-auth",
   fields = {
     { consumer = typedefs.no_consumer },
+    { mesh_mode = typedefs.mesh_two_way },
     { config = {
         type = "record",
         fields = {
-          { mesh_mode = typedefs.mesh_two_way },
           { hide_credentials = { type = "boolean", default = false }, },
           { clock_skew = { type = "number", default = 300, gt = 0 }, },
           { anonymous = { type = "string", uuid = true, legacy = true }, },

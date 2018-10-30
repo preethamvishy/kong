@@ -3,10 +3,10 @@ local typedefs = require "kong.db.schema.typedefs"
 return {
   name = "http-log",
   fields = {
+    { mesh_mode = typedefs.mesh_mode_two_way },
     { config = {
         type = "record",
         fields = {
-          { mesh_mode = typedefs.mesh_mode_two_way },
           { http_endpoint = typedefs.url({ required = true }) },
           { method = { type = "string", default = "POST", one_of = { "POST", "PUT", "PATCH" }, }, },
           { content_type = { type = "string", default = "application/json", one_of = { "application/json" }, }, },

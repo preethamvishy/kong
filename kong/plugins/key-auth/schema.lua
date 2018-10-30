@@ -4,11 +4,11 @@ local typedefs = require "kong.db.schema.typedefs"
 return {
   name = "key-auth",
   fields = {
+    { mesh_mode = typedefs.mesh_mode_two_way },
     { consumer = typedefs.no_consumer },
     { config = {
         type = "record",
         fields = {
-          { mesh_mode = typedefs.mesh_mode_two_way },
           { key_names = {
               type = "array",
               required = true,

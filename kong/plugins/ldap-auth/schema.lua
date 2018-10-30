@@ -6,11 +6,11 @@ local typedefs = require "kong.db.schema.typedefs"
 return {
   name = "ldap-auth",
   fields = {
+    { mesh_mode = typedefs.mesh_mode_two_way },
     { consumer = typedefs.no_consumer },
     { config = {
         type = "record",
         fields = {
-          { mesh_mode = typedefs.mesh_mode_two_way },
           { ldap_host = typedefs.host({ required = true }), },
           { ldap_port = typedefs.port({ required = true }), },
           { start_tls = { type = "boolean", required = true, default = false }, },

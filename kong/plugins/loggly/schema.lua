@@ -9,10 +9,10 @@ local severity = {
 return {
   name = "loggly",
   fields = {
+    { mesh_mode = typedefs.mesh_mode_two_way },
     { config = {
         type = "record",
         fields = {
-          { mesh_mode = typedefs.mesh_mode_two_way },
           { host = typedefs.host({ default = "logs-01.loggly.com" }), },
           { port = typedefs.port({ default = 514 }), },
           { key = { type = "string", required = true }, },
