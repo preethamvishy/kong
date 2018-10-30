@@ -422,6 +422,22 @@ local function set_field(tbl, name, value)
 end
 
 
+-- Get a field definition from a possibly-nested schema using a string key
+-- such as "x.y.z", such that `get_field(t, "x.y.z")` is the
+-- same as `t.x.y.z`.
+local function get_schema_field(schema, name)
+  if schema == nil then
+    return nil
+  end
+  local dot = find(name, ".", 1, true)
+  if not dot then
+    return schema.fields[name]
+  end
+  local hd, tl = sub(name, 1, dot - 1), sub(name, dot + 1)
+  return get_schema_field(schema.fields[hd], tl)
+end
+
+
 --- Entity checkers are cross-field validation rules.
 -- An entity checker is implemented as an entry in this table,
 -- containing a mandatory field `fn`, the checker function,
@@ -532,7 +548,7 @@ Schema.entity_checkers = {
       local if_value = get_field(entity, arg.if_field)
       local then_value = get_field(entity, arg.then_field) or null
 
-      arg.if_match.type = "skip"
+      arg.if_match.type = get_schema_field(schema, arg.if_field).type
       local ok, _ = Schema.validate_field(schema, arg.if_match, if_value)
       if not ok then
         return true
@@ -1621,6 +1637,16 @@ function Schema:get_constraints()
 end
 
 
+local function allow_record_fields_by_name(record)
+  for k, f in Schema.each_field(record) do
+    record.fields[k] = f
+    if f.type == "record" and f.fields then
+      allow_record_fields_by_name(f)
+    end
+  end
+end
+
+
 --- Instatiate a new schema from a definition.
 -- @param definition A table with attributes describing
 -- fields and other information about a schema.
@@ -1650,6 +1676,9 @@ function Schema.new(definition, is_subschema)
   for key, field in self:each_field() do
     -- Also give access to fields by name
     self.fields[key] = field
+    if field.type == "record" and field.fields then
+      allow_record_fields_by_name(field)
+    end
 
     if field.type == "foreign" then
       local err
